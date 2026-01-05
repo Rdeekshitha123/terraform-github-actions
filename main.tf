@@ -21,7 +21,7 @@ module "alb" {
   subnet_ids    = module.vpc.public_subnets
   instance_id      = module.ec2.instance_id
 }
-
+//statefile 
 terraform {
   backend "s3" {
 bucket = "mystate001"
