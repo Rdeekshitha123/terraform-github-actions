@@ -1,0 +1,29 @@
+name : terraform-github-actions
+on: push
+jobs:
+  my-terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - name: repo checkout
+        uses: actions/checkout@v3
+      - name: terraform setup
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: v1.14.0
+      - name: AWS credentials setup
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - name: terraform init
+        run: terraform init
+      - name: terraform format
+        run: terraform fmt -check
+      - name: terraform validate
+        run: terraform validate
+      - name: terraform plan
+        run: terraform plan 
+      - name: terraform apply
+        run: terraform apply -auto-approve
+      
